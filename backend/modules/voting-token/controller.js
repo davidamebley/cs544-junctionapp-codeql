@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const VotingToken = require('./model')
+const mongoose = require('mongoose')
 
 const controller = {}
 
@@ -39,7 +40,10 @@ controller.getVotesByProject = async event => {
 }
 
 controller.getToken = id => {
-    return VotingToken.findById(id)
+    if (typeof id !== 'string' || !/^[a-fA-F0-9]{24}$/.test(id)) {
+        return Promise.reject(new Error('Invalid voting token ID'))
+    }
+    return VotingToken.findById(new mongoose.Types.ObjectId(id))
 }
 
 controller.getTokenPublic = async id => {

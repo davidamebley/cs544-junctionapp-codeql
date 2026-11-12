@@ -300,7 +300,6 @@ router.post('/organization/:slug/icon', (req, res, next) => {
 //Upload, download and delete general files over 16mb
 //TODO: add hasToken for all calls. Left out for testing with postman
 router.post('/files', hasToken, upload.single('file'), (req, res, next) => {
-    console.log('Routes: Upload > POST > /files > file data', req.file)
     // console.log('Res', res)
     console.log('Post request from /files')
     const fileMetaData = {
@@ -338,7 +337,6 @@ router.delete('/files/:id', hasToken, (req, res, next) => {
     var gfs = new mongoose.mongo.GridFSBucket(mongoose.connections[0].db, {
         bucketName: 'uploads',
     })
-    console.log(req.params.id)
     gfs.delete(ObjectId(req.params.id), (err, data) => {
         if (err) {
             return res.status(404).json({ err: err })

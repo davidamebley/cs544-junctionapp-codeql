@@ -1,4 +1,12 @@
 const express = require('express')
+const rateLimit = require('express-rate-limit')
+
+const votingTokenLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 60,
+    standardHeaders: true,
+    legacyHeaders: false,
+})
 
 const router = express.Router()
 const _ = require('lodash')
@@ -90,6 +98,7 @@ router.route('/vote').post(
 )
 
 router.route('/:votingToken').get(
+    votingTokenLimiter,
     hasValidVotingToken,
     asyncHandler(async (req, res) => {
         const token = await VotingTokenController.getTokenPublic(
