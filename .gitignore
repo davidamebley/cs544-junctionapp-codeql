@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+
+backend/common/services/google-calendar/credentials.json
+backend/common/services/google-calendar/token.json
+
+.DS_Store
